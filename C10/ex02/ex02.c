@@ -6,7 +6,7 @@
 /*   By: spiscine <spiscine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 23:50:48 by spiscine          #+#    #+#             */
-/*   Updated: 2023/05/09 14:12:13 by spiscine         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:24:47 by spiscine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	ft_atoi(char *str)
 
 }
 
-int	ft_create_queue(t_queue *q, int	len)
+int	ft_create_queue(t_queue *q, int len)
 {
-	
+
 }
 
 
