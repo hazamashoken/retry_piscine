@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ex04.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spiscine <spiscine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tliangso <earth78203@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 15:41:29 by spiscine          #+#    #+#             */
-/*   Updated: 2023/05/08 22:28:08 by spiscine         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:36:06 by tliangso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+// #include <stdio.h>
 
 int	ft_strlen(char *str)
 {
@@ -96,6 +97,8 @@ int	ft_base_len(int nbr, int base)
 		nbr /= base;
 		len++;
 	}
+	if (len == 0)
+		return (1);
 	return (len);
 }
 
@@ -105,21 +108,33 @@ char	*ft_itoa_base(int nbr, char *base)
 	int		len;
 	int		nbase;
 	int		i;
+	int		neg;
 
+	neg = 1;
+	len = 0;
+	if (nbr < 0)
+	{
+		neg = -1;
+		nbr = -nbr;
+		len = 1;
+	}
 	nbase = ft_strlen(base);
-	len = ft_base_len(nbr, nbase);
+	len += ft_base_len(nbr, nbase);
 	i = len;
 	ret = (char *)malloc(len + 1);
 	if (!ret)
 		return (NULL);
+	if (len == 0)
+		return (ret[0] = base[0], ret[1] = 0, ret);
 	while (nbr > nbase)
 	{
 		ret[--len] = base[nbr % nbase];
 		nbr /= nbase;
 	}
 	ret[--len] = base[nbr % nbase];
-	ret[i] = 0;
-	return (ret);
+	if (neg == -1)
+		ret[0] = '-';
+	return (ret[i] = 0, ret);
 }
 
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
@@ -129,7 +144,7 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 
 	if (ft_valid_base(base_from) || ft_valid_base(base_to))
 		return (NULL);
-	while (*nbr == ' ' || (*nbr <= '\x9' && *nbr <= '\015'))
+	while (*nbr == ' ' || ('\t' <= *nbr && *nbr <= '\r'))
 		nbr++;
 	nb = ft_atoi_base(nbr, base_from);
 	ret = ft_itoa_base(nb, base_to);
@@ -138,10 +153,37 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	return (ret);
 }
 
-#include <stdio.h>
+// int	main(void)
+// {
+// 	printf("x: %x\n", 1234567890);
+// 	printf("c: %s\n", ft_convert_base("     \t\t\t-++---1234567890", "0123456789", "0123456789abcdef"));
+// }
 
-int	main(void)
-{
-	printf("x: %x\n", 1234567890);
-	printf("c: %s\n", ft_convert_base("     \t\t\t-++---1234567890", "0123456789", "0123456789abcdef"));
-}
+// int    main(void)
+// {
+// 	char *converted;
+// 	converted = ft_convert_base("-101010", "01", "0123456789");
+// 	printf("%s\n", converted);
+// 	free(converted);
+
+// 	converted = ft_convert_base("  -+1010102345678ff", "01", "0123456789abcdef");
+// 	printf("%s\n", converted);
+// 	free(converted);
+
+// 	converted = ft_convert_base(" \t\f\v +34589qw", "01234567", "012");
+// 	printf("%s\n", converted);
+// 	free(converted);
+
+// 	converted = ft_convert_base(" \t\f\v +asdf", "fgh", ".?");
+// 	printf("%s\n", converted);
+// 	free(converted);
+
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "01234567", "0+12"));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "01234567", "012 "));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "012345-67", "012"));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "012\t34567", "012"));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "0", "012"));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34589qw", "01", ""));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34w", "01", "0123456789"));
+// 	printf("%s\n", ft_convert_base(" \t\f\v +34w", "01", "!?"));
+// }
